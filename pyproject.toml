@@ -1,0 +1,139 @@
+#
+# RamRalph plugin package
+#
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ramralph"
+description = "A RAM data backend plugin for Ralph (ralph-malph)."
+readme = "README.md"
+authors = [
+    { "name" = "SergioSim", "email" = "sergio.simonian@etu.univ-cotedazur.fr" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.11"
+]
+requires-python = ">=3.11"
+license = { file = "LICENSE.md" }
+keywords = ["Ralph", "ralph-malph"]
+dependencies = [
+    "ralph-malph[cli] @ https://github.com/openfun/ralph/archive/refs/tags/v4.0.0-beta1.zip",
+]
+version = "0.1.0"
+
+[project.urls]
+"Homepage" = "https://github.com/SergioSim/ramralph"
+"Bug Tracker" = "https://github.com/SergioSim/ramralph/issues"
+"Changelog" = "https://github.com/SergioSim/ramralph/blob/main/CHANGELOG.md"
+"Repository" = "https://github.com/SergioSim/ramralph"
+
+[project.optional-dependencies]
+dev = [
+    "black==23.12.1",
+    "mypy==1.8.0",
+    "pyfakefs==5.3.2",
+    "pytest==7.4.4",
+    "pytest-cov==4.1.0",
+    "ruff==0.1.11",
+]
+
+[tool.setuptools]
+packages = { find = { where = ["src"] } }
+zip-safe = true
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+#
+# Third-party packages configuration
+#
+[tool.ruff]
+exclude = [
+    ".conda",
+    ".git",
+    ".venv",
+    "build",
+    "scripts",
+    "venv",
+    "__pycache__",
+    "node_modules",
+    "*/migrations/*",
+]
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "ARG",  # flake8-unused-arguments
+    "B",  # flake8-bugbear
+    "BLE",  # flake8-blind-except
+    "C4",  # flake8-comprehensions
+    "D",  # pydocstyle
+    "E",  # pycodestyle error
+    "F",  # Pyflakes
+    "FIX",  # flake8-fixme
+    "I",  # isort
+    "PLC",  # Pylint Convention
+    "PLE",  # Pylint Error
+    "PLR",  # Pylint Refactor
+    "PLW",  # Pylint Warning
+    "RUF100",  # Ruff unused-noqa
+    "S",  # flake8-bandit
+    "SLF",  # flake8-self
+    "T20",  # flake8-print
+    "W",  # pycodestyle warning
+]
+ignore = [
+    "B008",  # function-call-in-default-argument
+    "N806",  # non-lowercase-variable-in-function
+    "N815",  # mixed-case-variable-in-class-scope
+    "N818",  # error-suffix-on-exception-name
+]
+
+[tool.ruff.lint.isort]
+section-order = ["future", "standard-library", "third-party", "ramralph", "first-party", "local-folder"]
+[tool.ruff.lint.isort.sections]
+ramralph = ["ramralph"]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = [
+    "ARG",  # flake8-unused-arguments
+    "D",  # pydocstyle
+    "S",  # flake8-bandit
+    "SLF",  # flake8-self
+    "PLR2004",  # Pylint magic-value-comparison
+]
+"setup.py" = [
+    "D" # Pydocstyle rules
+]
+
+[tool.ruff.pydocstyle]
+# Use Google-style docstrings.
+convention = "google"
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+files = "src/ralph/**/*.py"
+plugins = "pydantic.mypy"
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+addopts = "-v --cov-report term-missing --cov-config=.coveragerc --cov=ralph.backends.data.ram"
+python_files = [
+    "test_*.py",
+    "tests.py",
+]
+testpaths = "tests"
