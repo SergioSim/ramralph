@@ -8,5 +8,9 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- RAMDataBackend implementation
+
 [unreleased]: https://github.com/SergioSim/ramralph
 
