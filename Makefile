@@ -47,7 +47,7 @@ lint-mypy: ## lint back-end python sources with mypy
 
 lint-black: ## lint back-end python sources with black
 	@echo 'lint:black started…'
-	@$(COMPOSE_TEST_RUN_APP) black src/ralph tests
+	@$(COMPOSE_TEST_RUN_APP) black ramralph tests
 .PHONY: lint-black
 
 lint-ruff: ## lint python sources with ruff

@@ -2,8 +2,9 @@
 
 import pytest
 from ralph.backends.data.base import DataBackendStatus
-from ralph.backends.data.ram import RAMDataBackend, RAMDataBackendSettings
 from ralph.exceptions import BackendParameterException
+
+from ramralph import RAMDataBackend, RAMDataBackendSettings
 
 
 def test_backends_data_ram_default_instantiation(monkeypatch, fs):
@@ -39,7 +40,7 @@ def test_backends_data_ram_default_instantiation(monkeypatch, fs):
         ],
     }
     # Test overriding default values with environment variables.
-    monkeypatch.setenv("RALPH_BACKENDS__DATA__RAM__READ_CHUNK_SIZE", 1)
+    monkeypatch.setenv("RALPH_BACKENDS__DATA__RAM__READ_CHUNK_SIZE", "1")
     backend = RAMDataBackend()
     assert backend.settings.READ_CHUNK_SIZE == 1
 

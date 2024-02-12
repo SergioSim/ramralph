@@ -25,9 +25,9 @@ requires-python = ">=3.11"
 license = { file = "LICENSE.md" }
 keywords = ["Ralph", "ralph-malph"]
 dependencies = [
-    "ralph-malph[cli] @ https://github.com/openfun/ralph/archive/refs/tags/v4.0.0-beta1.zip",
+    "ralph-malph[cli] @ git+https://github.com/openfun/ralph.git@less-automatic-backend-discovery",
 ]
-version = "0.1.0"
+dynamic = ["version"]
 
 [project.urls]
 "Homepage" = "https://github.com/SergioSim/ramralph"
@@ -45,9 +45,11 @@ dev = [
     "ruff==0.1.11",
 ]
 
-[tool.setuptools]
-packages = { find = { where = ["src"] } }
-zip-safe = true
+[project.entry-points."ralph.backends.data"]
+ram = "ramralph.ram:RAMDataBackend"
+
+[tool.setuptools.dynamic]
+version = { attr = "ramralph.__version__" }
 
 [tool.distutils.bdist_wheel]
 universal = true
@@ -122,7 +124,7 @@ convention = "google"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
-files = "src/ralph/**/*.py"
+files = "ramralph/**/*.py"
 plugins = "pydantic.mypy"
 
 [tool.pydantic-mypy]
@@ -131,7 +133,7 @@ init_typed = true
 warn_required_dynamic_aliases = true
 
 [tool.pytest.ini_options]
-addopts = "-v --cov-report term-missing --cov-config=.coveragerc --cov=ralph.backends.data.ram"
+addopts = "-v --cov-report term-missing --cov-config=.coveragerc --cov=ramralph"
 python_files = [
     "test_*.py",
     "tests.py",
